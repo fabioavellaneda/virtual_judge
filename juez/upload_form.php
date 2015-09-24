@@ -74,10 +74,10 @@
                     <h3 class="text-center">Envía un problema</h3>
                     <h5 class="text-center">
 											<font color="#DB8321">
-												Para conocer sus envíos, por favor ingrese sus credenciales.
+												Para enviar un problema, por favor ingrese sus credenciales.
 											</font>
 										</h5>
-                    <form action="upload.php" method="post" enctype="multipart/form-data">
+                    <form action="uploadCPP.php" method="post" enctype="multipart/form-data">
                       <div class="form-group">
                           <div class="input-group">
                               <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
@@ -110,7 +110,7 @@
 											<div class="form-group">
 												<div class="input-group">
 						                <span class="input-group-addon btn btn-default btn-file">
-																<span class="glyphicon glyphicon-floppy-open" > Elegir Archivo... </span>
+																<span class="glyphicon glyphicon-floppy-open" > Elegir Archivo (.zip)... </span>
 																	  <input type="file" name="uploadedfile" id="uploadedfile" multiple>
 
 						                </span>

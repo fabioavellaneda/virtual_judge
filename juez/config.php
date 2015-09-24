@@ -1,7 +1,7 @@
 <?php
-$user = "INSERT_USER";     //CHANGE THIS LINE
-$password = "INSERT_PASSWORD"; //CHANGE THIS LINE
-$db = "INSERT_DB"; //CHANGE THIS LINE
+$user = "atlantis";     //CHANGE THIS LINE
+$password = "atlantis"; //CHANGE THIS LINE
+$db = "juez_virtual"; //CHANGE THIS LINE
 
 $url_db = "127.0.0.1"; //Only change this if the DB is not local.
 

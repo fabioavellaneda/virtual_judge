@@ -89,7 +89,7 @@ while($row = mysqli_fetch_array($result)) {
 ?>
 
 
-<?php 
+<?php
 $html = file_get_contents('header.html');
 echo $html;
 
@@ -139,7 +139,7 @@ echo $html;
 					}
 
 
-					
+
 					//print_r($respuestaCorrecta);
 
 					$resultado = comparar_resultados($respuestaCorrecta, $respuestaUsuario);
@@ -181,7 +181,7 @@ echo $html;
 							}else{
 								echo 'Lo he insertado';
 							}
-							
+
 							echo "<p>Felicitaciones has hecho un problema más, has ganado puntos.</p>";
 
 						}
@@ -201,22 +201,3 @@ echo $html;
 </div>
 <div align=center>Juez creado por: Daniel Serrano, Lenguaje creado por Alfredo Santamaria y Daniel Serrano</div></body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
