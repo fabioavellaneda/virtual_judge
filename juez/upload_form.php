@@ -15,7 +15,7 @@
 	<script type="text/javascript" src="../js/fileChooserFeed.js"></script>
 	<script type="text/javascript" src="../js/minusIconAnim.js"></script>
 </head>
-<body> 
+<body>
 	<header class="lp-header" id="header">
 		<div class="judge-header">
 				<h1>Juez Virtual <span>Discant</span></h1>
@@ -29,37 +29,37 @@
 	        <a href="#skip-menu" class="hidden">Skip menu</a>
 	        <ul class="nav nav-pills nav-stacked">
 	          <li>
-	            <a href="/index.html">
+	            <a href="/virtual_judge/index.html">
 	              <span class="glyphicon glyphicon-home"></span>
 	                  Inicio
 	            </a>
 	          </li>
 	          <li class="active">
-	            <a href="/juez/upload_form.php">
+	            <a href="/virtual_judge/juez/upload_form.php">
 	              <span class="glyphicon glyphicon-send"></span>
 	              Enviar problema
 	            </a>
 	          </li>
 	          <li>
-	            <a href="/juez/insertar_usuario.html" >
+	            <a href="/virtual_judge/juez/insertar_usuario.html" >
 	              <span class="glyphicon glyphicon-user"></span>
 	              Crear usuario
 	            </a>
 	          </li>
 	          <li>
-	            <a href="/juez/puntajes.php">
+	            <a href="/virtual_judge/juez/puntajes.php">
 	              <span class="glyphicon glyphicon-stats"></span>
 	              Tabla de posiciones
 	            </a>
 	          </li>
 	          <li>
-	            <a href="/juez/insert_problem.html">
+	            <a href="/virtual_judge/juez/insert_problem.html">
 	              <span class="glyphicon glyphicon-plus-sign"></span>
 	              Agregar problema
 	            </a>
 	          </li>
 	          <li class="last">
-	            <a href="/juez/mis_envios.html">
+	            <a href="/virtual_judge/juez/mis_envios.html">
 	              <span class="glyphicon glyphicon-transfer"></span>
 	              Mis envios
 	            </a>
