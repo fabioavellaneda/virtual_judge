@@ -7,11 +7,20 @@ $array_usuarios = array();
 $array_puntos = array();
 $array_nombre = array();
 $array_colegio = array();
+$array_ejercicios = array();
 
 //Este es para la barra de colegios.
 $array_colegios = array();
 $cuantos_colegio = array();
 $puntos_colegio = array();
+
+
+//consulta para los ejercicios
+$result = mysqli_query($con, "SELECT nombre FROM problema");
+
+while($row = mysqli_fetch_array($result)) {
+  array_push($array_ejercicios, $row['nombre']);
+}
 
 $result = mysqli_query($con, "SELECT nombre, usuario, colegio FROM Usuario");
 
@@ -63,11 +72,17 @@ $html = file_get_contents('header.html');
 echo $html;
 
 ?>
+        <br><br><br>
+        <div class="col-xs-12 col-sm-7 well well-lg call-to-action">
 
-      <div class="col-xs-12 col-sm-8 col-md-8">
-        Por cada problema enviado a tiempo, se otorgan 10 puntos,
-        por cada problema completado fuera de la fecha límite,
-        se otorgan 5 puntos.
+            <h3 class="media-heading text-uppercase reviews">Puntajes </h3>
+            <p class="media-comment">
+               <font size="3" color="#DB8321">Poner acá como son los puntajes!!
+               se otorgan 5 puntos.
+               </font>
+            </p>
+        </div>
+      <div class="col-xs-12 col-sm-12 col-md-12">
         <br><br>
 
 		<?php
@@ -106,8 +121,12 @@ echo $html;
               <th><font color="#DB8321"> # </font></th>
               <th><font color="#DB8321"> Usuario </font></th>
               <th><font color="#DB8321"> Nombre </font></th>
-              <th><font color="#DB8321"> Colegio </font></th>
-              <th><font color="#DB8321"> Puntos </font></th>
+
+              <?php
+                foreach ($array_ejercicios as $nomEjercicio) {
+                    echo ' <th><font color="#DB8321"> ' . $nomEjercicio . ' </font></th> ';
+                }
+               ?>
             </tr>
             <p>
       				<?php
@@ -121,8 +140,6 @@ echo $html;
                             $array_usuarios[$i] . '</a>' .
                           '</td>' .
                           '<td>' . $array_nombre[$array_usuarios[$i]]  . '</td>' .
-                          '<td>' . $array_colegio[$array_usuarios[$i]] . '</td>' .
-                          '<td>' . $array_puntos[$array_usuarios[$i]]  . '</td>' .
                       '</tr>';
       				}
 

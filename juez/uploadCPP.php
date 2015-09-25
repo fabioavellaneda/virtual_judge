@@ -1,5 +1,6 @@
 <?php
-include "config.php";
+include_once "config.php";
+include_once "guardarSolucion.php";
 
 $mensaje = 'sin cambiar';
 
@@ -10,7 +11,10 @@ $con = connection_query();
 $usuario = $_POST["usuario"];
 $pass = sha1($_POST["pass"]);
 
-$result = mysqli_query($con, "SELECT usuario, password FROM Usuario WHERE usuario = '$usuario' AND password = '$pass'");
+$result = mysqli_query($con,
+                    "SELECT usuario, password
+                     FROM Usuario
+                     WHERE usuario = '$usuario' AND password = '$pass'");
 $entro = false;
 
 while($row = mysqli_fetch_array($result)) {
@@ -29,7 +33,9 @@ $target_path = "uploads/";
 $problema = $_POST["problema"];
 
 
-$result = mysqli_query($con, "SELECT id, nombre, lenguaje FROM problema WHERE id = $problema");
+$result = mysqli_query($con,
+                        "SELECT id, nombre, lenguaje
+                         FROM problema WHERE id = $problema");
 
 $problema_nombre = 'Sin_nombre';
 $lenguaje = "ninguno";
@@ -45,7 +51,7 @@ $html = file_get_contents('header.html');
 echo $html;
 
 ?>
-<div class="col-xs-12 col-sm-8 col-md-4">
+<div class="col-xs-12 col-sm-8 col-md-8">
           <h2><font color='#426E8A'>Resultados</font></h2>
           <p>
 					<?php
@@ -98,23 +104,28 @@ echo $html;
                             }else{
                                 exec('mv clientApi uploads/api');
 
-        						exec('./uploads/api/clientApi & sleep 2 ; kill $!', $salida, $return);
+        						exec('timeout -k 2 2  ./uploads/api/clientApi', $salida, $return);
+
+
+
+                                for($j = 0; $j < count($salida); $j++)
+                                {
+                                    print $salida[$j];
+                                    echo '<br>';
+                                }
 
                                 //echo "retrono de ejecutar " . $return . "<br>";
+
                                 //retorno assert
                                 if($return == 134){
                                     echo "<font color='red'> Assert cuando no se debia llamar </font>
                                           <br>";
-                                }else if($return == 1){
-                                    $contBienNormal++;
-                                    for($j = 0; $j < count($salida); $j++)
-                                	{
-                                		print $salida[$j];
-                                        echo '<br>';
-                                	}
-                                }else if($return == 0){
+                                }else if($return == 124){
                                     echo "<font color='red'> Time Limit!! </font>
                                           <br>";
+                                }else if($return == 0){
+                                    $contBienNormal++;
+
                                 }else{
                                     echo "<font color='red'> Runtime Error!! </font>
                                           <br>";
@@ -128,7 +139,7 @@ echo $html;
                             exec('rm uploads/api/' . $problema_nombre . '.cpp');
 
                         }
-                        
+
                         if(!$compilationError){
                             // for de test assert
                             exec('ls -1 problemas/' . $problema_nombre . '/assert/ ', $archivosAssert, $return);
@@ -155,21 +166,21 @@ echo $html;
                                 }else{
                                     exec('mv clientApi uploads/api');
 
-            						exec('./uploads/api/clientApi & sleep 2 ; kill $!', $salida, $return);
-                                    for($j = 0; $j < count($salida); $j++)
+            						exec('timeout -k 2 2 ./uploads/api/clientApi', $salida2, $return2);
+                                    for($j = 0; $j < count($salida2); $j++)
                                     {
-                                        print $salida[$j];
+                                        print $salida2[$j];
                                         echo '<br>';
                                     }
-                                    //echo "retrono de ejecutar " . $return . "<br>";
+                                    //echo "retrono de ejecutar " . $return2 . "<br>";
                                     //retorno assert
-                                    if($return == 134){
+                                    if($return2 == 134){
                                         echo "Preuba de Asser aprobada <br>";
                                               $contBienAssert++;
-                                    }else if($return == 1){
+                                    }else if($return2 == 0){
                                         echo "Se esperaba un Assert en esta prueba!!<br>";
 
-                                    }else if($return == 0){
+                                    }else if($return2 == 124){
                                         echo "<font color='red'> Time Limit!! </font>
                                               <br>";
                                     }else{
@@ -185,6 +196,11 @@ echo $html;
                                 exec('rm uploads/api/' . $problema_nombre . '.cpp');
 
                             }
+
+                            //guardar en la base de datos
+                            guardarSolucion($usuario, $problema_nombre,
+                                            $contBienNormal+$contBienAssert, $totalNormal+$totalAssert);
+
                         }
                         //delete everything inside api folder
                         exec('rm uploads/api/*');
