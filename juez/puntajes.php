@@ -38,7 +38,10 @@ while($row = mysqli_fetch_array($result)) {
   $puntos_colegio[$row['colegio']] = 0;
 }
 
-$result = mysqli_query($con, "SELECT usuario, problema, fecha_maxima, id, fecha FROM usuario_problema, problema WHERE problema = id");
+$result = mysqli_query($con,
+                    "SELECT usuario, problema, fecha_maxima, id, fecha
+                     FROM usuario_problema, problema
+                     WHERE problema = id");
 $puntos = 0;
 while($row = mysqli_fetch_array($result)) {
   $fecha_envio = strtotime( $row['fecha'] );
@@ -75,10 +78,10 @@ echo $html;
         <br><br><br>
         <div class="col-xs-12 col-sm-7 well well-lg call-to-action">
 
-            <h3 class="media-heading text-uppercase reviews">Puntajes </h3>
+            <h3 class="media-heading text-uppercase reviews">Resultados </h3>
             <p class="media-comment">
-               <font size="3" color="#DB8321">Poner acá como son los puntajes!!
-               se otorgan 5 puntos.
+               <font size="3" color="#DB8321">Los usuarios se encuentran en un orden
+                   arbitrario indicando el resultado obtenido en cada problema.
                </font>
             </p>
         </div>
@@ -113,7 +116,7 @@ echo $html;
 
         <div class="panel panel-custom filterable">
           <div class="panel-heading">
-              <h3 class="panel-title">Tabla de posiciones Usuarios</h3>
+              <h3 class="panel-title">Tabla de resultados Usuarios</h3>
           </div>
 
           <table class="table table-hover" id="dev-table">
@@ -124,7 +127,8 @@ echo $html;
 
               <?php
                 foreach ($array_ejercicios as $nomEjercicio) {
-                    echo ' <th><font color="#DB8321"> ' . $nomEjercicio . ' </font></th> ';
+                    echo ' <th><font color="#DB8321"> ' . $nomEjercicio .
+                         ' </font></th> ';
                 }
                ?>
             </tr>
@@ -139,8 +143,36 @@ echo $html;
                             '<a href="envios_usuario.php?usuario=' . $array_usuarios[$i] . '">' .
                             $array_usuarios[$i] . '</a>' .
                           '</td>' .
-                          '<td>' . $array_nombre[$array_usuarios[$i]]  . '</td>' .
-                      '</tr>';
+                          '<td>' . $array_nombre[$array_usuarios[$i]]  . '</td>';
+
+                          //echo '<td> oooo ' . count($array_ejercicios) . ' </td>';
+                          //query for scores
+                          for($j = 0; $j < count($array_ejercicios); $j++){
+                              $result = mysqli_query($con,
+                                        "SELECT aprobadas, totalPruebas
+                                         FROM usuario_problema
+                                         WHERE usuario  = '$array_usuarios[$i]' AND
+                                               problema = '$array_ejercicios[$j]'");
+                              $hayPuntaje = false;
+                              while($row = mysqli_fetch_array($result)) {
+                                    $hayPuntaje = true;
+                                    echo "<td>";
+                                    if($row['aprobadas'] / $row['totalPruebas'] >= 0.5){
+                                        echo "<font color='green'>";
+                                    }else{
+                                        echo "<font color='red'>";
+                                    }
+                                    echo $row['aprobadas'] ."/".$row['totalPruebas']. "
+                                            </font></td>";
+                              }
+
+                               if(!$hayPuntaje){
+                                   echo "<td> <font color='red'>-/- </font></td>";
+                               }
+
+                          }
+
+                      echo'</tr>';
       				}
 
 
