@@ -65,7 +65,7 @@ echo $html;
 					} else{
 						die ('Hubo un problema subiendo el archivo al servidor, por favor intenta de nuevo.');
 					}
-
+                    $compilationError = false;
 					if($lenguaje == "cpp"){
 						//descomprimir el archivo y ejecutar cliente
 						exec('unzip uploads/api.zip -d uploads/api');
@@ -83,35 +83,41 @@ echo $html;
                                  ' uploads/api/' . $problema_nombre . '.cpp');
 
     						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
-
+                            //echo "retrono de compilar " . $return . "<br>";
                             if($return == 1){
+
                                 echo "<font color='red'> Compilation Error!! </font>
                                      <br>
                                      Recuerda que el nombre del archivo .h debe ser lista.h
                                      <br>
                                      Prueba compilar tu TAD antes de enviarlo
                                      <br>";
+                                $compilationError = true;
+                                break;
                                 //TODO sumar el error ??
                             }else{
                                 exec('mv clientApi uploads/api');
 
-        						exec('./uploads/api/clientApi', $salida, $return);
+        						exec('./uploads/api/clientApi & sleep 2 ; kill $!', $salida, $return);
 
+                                //echo "retrono de ejecutar " . $return . "<br>";
                                 //retorno assert
                                 if($return == 134){
                                     echo "<font color='red'> Assert cuando no se debia llamar </font>
                                           <br>";
-                                }else if($return != 0){
-                                    echo "<font color='red'> Runtime Error!! </font>
-                                          <br>";
-
-                                }else{
+                                }else if($return == 1){
                                     $contBienNormal++;
                                     for($j = 0; $j < count($salida); $j++)
                                 	{
                                 		print $salida[$j];
                                         echo '<br>';
                                 	}
+                                }else if($return == 0){
+                                    echo "<font color='red'> Time Limit!! </font>
+                                          <br>";
+                                }else{
+                                    echo "<font color='red'> Runtime Error!! </font>
+                                          <br>";
                                 }
                             }
                             echo "<br>
@@ -122,54 +128,63 @@ echo $html;
                             exec('rm uploads/api/' . $problema_nombre . '.cpp');
 
                         }
+                        
+                        if(!$compilationError){
+                            // for de test assert
+                            exec('ls -1 problemas/' . $problema_nombre . '/assert/ ', $archivosAssert, $return);
 
-                        // for de test assert
-                        exec('ls -1 problemas/' . $problema_nombre . '/assert/ ', $archivosAssert, $return);
+                            $totalAssert = count($archivosAssert);
+                            //echo "total = " . $total . "<br>";
+                            $contBienAssert = 0;
+                            for($i = 0; $i < $totalAssert; $i++){
+                                //echo 'nombre= ' . $archivosAssert[$i] . '<br>';
+        						exec('cp problemas/' . $problema_nombre . '/assert/'
+                                      . $archivosAssert[$i] .
+                                     ' uploads/api/' . $problema_nombre . '.cpp');
 
-                        $totalAssert = count($archivosAssert);
-                        //echo "total = " . $total . "<br>";
-                        $contBienAssert = 0;
-                        for($i = 0; $i < $totalAssert; $i++){
-                            //echo 'nombre= ' . $archivosAssert[$i] . '<br>';
-    						exec('cp problemas/' . $problema_nombre . '/assert/'
-                                  . $archivosAssert[$i] .
-                                 ' uploads/api/' . $problema_nombre . '.cpp');
+        						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
 
-    						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
-
-                            if($return == 1){
-                                echo "<font color='red'> Compilation Error!! </font>
-                                     <br>
-                                     Recuerda que el nombre del archivo .h debe ser lista.h
-                                     <br>
-                                     Prueba compilar tu TAD antes de enviarlo
-                                     <br>";
-                                //TODO matar todo
-                            }else{
-                                exec('mv clientApi uploads/api');
-
-        						exec('./uploads/api/clientApi', $salida, $return);
-                                for($j = 0; $j < count($salida); $j++)
-                                {
-                                    print $salida[$j];
-                                    echo '<br>';
-                                }
-                                //retorno assert
-                                if($return == 134){
-                                    echo "         Preuba de Asser aprobada <br>";
-                                          $contBienAssert++;
+                                if($return == 1){
+                                    echo "<font color='red'> Compilation Error!! </font>
+                                         <br>
+                                         Recuerda que el nombre del archivo .h debe ser lista.h
+                                         <br>
+                                         Prueba compilar tu TAD antes de enviarlo
+                                         <br>";
+                                    //TODO matar todo
                                 }else{
-                                    echo "         Se esperaba un Assert en esta prueba!!<br>";
+                                    exec('mv clientApi uploads/api');
 
+            						exec('./uploads/api/clientApi & sleep 2 ; kill $!', $salida, $return);
+                                    for($j = 0; $j < count($salida); $j++)
+                                    {
+                                        print $salida[$j];
+                                        echo '<br>';
+                                    }
+                                    //echo "retrono de ejecutar " . $return . "<br>";
+                                    //retorno assert
+                                    if($return == 134){
+                                        echo "Preuba de Asser aprobada <br>";
+                                              $contBienAssert++;
+                                    }else if($return == 1){
+                                        echo "Se esperaba un Assert en esta prueba!!<br>";
+
+                                    }else if($return == 0){
+                                        echo "<font color='red'> Time Limit!! </font>
+                                              <br>";
+                                    }else{
+                                        echo "<font color='red'> Runtime Error!! </font>
+                                              <br>";
+                                    }
                                 }
+                                echo "<br>
+                                     <font color='green'> " . $contBienAssert . "/" . $totalAssert .
+                                     " preubas assert aprobadas </font>
+                                      <br><br>";
+
+                                exec('rm uploads/api/' . $problema_nombre . '.cpp');
+
                             }
-                            echo "<br>
-                                 <font color='green'> " . $contBienAssert . "/" . $totalAssert .
-                                 " preubas assert aprobadas </font>
-                                  <br><br>";
-
-                            exec('rm uploads/api/' . $problema_nombre . '.cpp');
-
                         }
                         //delete everything inside api folder
                         exec('rm uploads/api/*');
