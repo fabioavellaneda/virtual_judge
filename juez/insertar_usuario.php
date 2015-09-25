@@ -5,17 +5,16 @@
 $nombre = $_POST["nombre"];
 $usuario = $_POST["usuario"];
 $pass = sha1($_POST["pass"]);
-$colegio = $_POST["colegio"];
 
 
-  $sql = "INSERT INTO Usuario (nombre, usuario, password, colegio)
-  VALUES ('$nombre', '$usuario','$pass', '$colegio')";
+  $sql = "INSERT INTO Usuario (nombre, usuario, password)
+  VALUES ('$nombre', '$usuario','$pass')";
 
 $retval = mysql_query( $sql );
 ?>
 
 
-<?php 
+<?php
 $html = file_get_contents('header.html');
 echo $html;
 
@@ -47,5 +46,3 @@ echo $html;
 </div>
 <div align=center>Juez creado por: Daniel Serrano, Lenguaje creado por Alfredo Santamaria y Daniel Serrano</div></body>
 </html>
-
-
