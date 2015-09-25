@@ -45,7 +45,8 @@ $html = file_get_contents('header.html');
 echo $html;
 
 ?>
-          <h2>Resultados</h2>
+<div class="col-xs-12 col-sm-8 col-md-4">
+          <h2><font color='#426E8A'>Resultados</font></h2>
           <p>
 					<?php
 					if(!$entro){
@@ -59,8 +60,8 @@ echo $html;
 					$target_path = $target_path . 'api.zip';
 
 					if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
-						echo "El archivo ".  basename( $_FILES['uploadedfile']['name']).
-						" ha sido subido al servidor con éxito<br>";
+						//echo "El archivo ".  basename( $_FILES['uploadedfile']['name']).
+						//" ha sido subido al servidor con éxito<br>";
 					} else{
 						die ('Hubo un problema subiendo el archivo al servidor, por favor intenta de nuevo.');
 					}
@@ -69,23 +70,21 @@ echo $html;
 						//descomprimir el archivo y ejecutar cliente
 						exec('unzip uploads/api.zip -d uploads/api');
 
-
                         // for de test normales
                         exec('ls -1 problemas/' . $problema_nombre . '/normal/ ', $archivos, $return);
                         //echo 'retrun= ' . $return . '<br> para problemas/' . $problema_nombre . '/normal/ ';
                         //echo 'cont= ' . count($archivos) . '<br>';
-                        for($i = 0; $i < count($archivos); $i++){
-                            echo 'nombre= ' . $archivos[$i] . '<br>';
+                        $totalNormal = count($archivos);
+                        $contBienNormal = 0;
+                        for($i = 0; $i < $totalNormal; $i++){
+                            //echo 'nombre= ' . $archivos[$i] . '<br>';
     						exec('cp problemas/' . $problema_nombre . '/normal/'
                                   . $archivos[$i] .
                                  ' uploads/api/' . $problema_nombre . '.cpp');
 
     						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
 
-                            if($return == 134){
-                                echo "<font color='red'> Assert cuando no se esperaba!! </font>
-                                     <br>";
-                            }else if($return == 1){
+                            if($return == 1){
                                 echo "<font color='red'> Compilation Error!! </font>
                                      <br>
                                      Recuerda que el nombre del archivo .h debe ser lista.h
@@ -97,24 +96,77 @@ echo $html;
                                 exec('mv clientApi uploads/api');
 
         						exec('./uploads/api/clientApi', $salida, $return);
-                                //echo $salida;
-                                echo "retorno " . $return . " <br>";
-                                if($return == 123){
+
+                                //retorno assert
+                                if($return == 134){
                                     echo "<font color='red'> Assert cuando no se debia llamar </font>
-                                         <br>";
+                                          <br>";
                                 }else if($return != 0){
                                     echo "<font color='red'> Runtime Error!! </font>
-                                         <br>";
+                                          <br>";
 
                                 }else{
-
-                                    for($i = 0; $i < count($salida); $i ++)
+                                    $contBienNormal++;
+                                    for($j = 0; $j < count($salida); $j++)
                                 	{
-                                		print $salida[$i];
+                                		print $salida[$j];
                                         echo '<br>';
                                 	}
                                 }
                             }
+                            echo "<br>
+                                 <font color='green'> " . $contBienNormal . "/" . $totalNormal .
+                                 " preubas normales aprobadas </font>
+                                  <br><br>";
+
+                            exec('rm uploads/api/' . $problema_nombre . '.cpp');
+
+                        }
+
+                        // for de test assert
+                        exec('ls -1 problemas/' . $problema_nombre . '/assert/ ', $archivosAssert, $return);
+
+                        $totalAssert = count($archivosAssert);
+                        //echo "total = " . $total . "<br>";
+                        $contBienAssert = 0;
+                        for($i = 0; $i < $totalAssert; $i++){
+                            //echo 'nombre= ' . $archivosAssert[$i] . '<br>';
+    						exec('cp problemas/' . $problema_nombre . '/assert/'
+                                  . $archivosAssert[$i] .
+                                 ' uploads/api/' . $problema_nombre . '.cpp');
+
+    						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
+
+                            if($return == 1){
+                                echo "<font color='red'> Compilation Error!! </font>
+                                     <br>
+                                     Recuerda que el nombre del archivo .h debe ser lista.h
+                                     <br>
+                                     Prueba compilar tu TAD antes de enviarlo
+                                     <br>";
+                                //TODO matar todo
+                            }else{
+                                exec('mv clientApi uploads/api');
+
+        						exec('./uploads/api/clientApi', $salida, $return);
+                                for($j = 0; $j < count($salida); $j++)
+                                {
+                                    print $salida[$j];
+                                    echo '<br>';
+                                }
+                                //retorno assert
+                                if($return == 134){
+                                    echo "         Preuba de Asser aprobada <br>";
+                                          $contBienAssert++;
+                                }else{
+                                    echo "         Se esperaba un Assert en esta prueba!!<br>";
+
+                                }
+                            }
+                            echo "<br>
+                                 <font color='green'> " . $contBienAssert . "/" . $totalAssert .
+                                 " preubas assert aprobadas </font>
+                                  <br><br>";
 
                             exec('rm uploads/api/' . $problema_nombre . '.cpp');
 
@@ -140,8 +192,6 @@ echo $html;
 
 
         </div>
-      </div>
-    </div>
     <div class="cleaner">&nbsp;</div>
   </div>
 </div>
