@@ -59,8 +59,8 @@ echo $html;
 					$target_path = $target_path . 'api.zip';
 
 					if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
-						/*echo "El archivo ".  basename( $_FILES['uploadedfile']['name']).
-						" ha sido subido al servidor con éxito<br>";*/
+						echo "El archivo ".  basename( $_FILES['uploadedfile']['name']).
+						" ha sido subido al servidor con éxito<br>";
 					} else{
 						die ('Hubo un problema subiendo el archivo al servidor, por favor intenta de nuevo.');
 					}
@@ -68,36 +68,62 @@ echo $html;
 					if($lenguaje == "cpp"){
 						//descomprimir el archivo y ejecutar cliente
 						exec('unzip uploads/api.zip -d uploads/api');
-						exec('cp problemas/' . $problema_nombre .
-                             '.cpp uploads/api/' . $problema_nombre . '.cpp');
 
-						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
-                        if($return == 1){
-                            echo "<font color='red'> Compilation Error!! </font>
-                                 <br>
-                                 Recuerda que el nombre del archivo .h debe ser lista.h
-                                 <br>
-                                 Prueba compilar tu TAD antes de enviarlo
-                                 <br>";
-                            //TODO sumar el error ??
-                        }else{
-                            exec('mv clientApi uploads/api');
 
-    						exec('./uploads/api/clientApi', $salida);
-                            //echo $salida;
+                        // for de test normales
+                        exec('ls -1 problemas/' . $problema_nombre . '/normal/ ', $archivos, $return);
+                        //echo 'retrun= ' . $return . '<br> para problemas/' . $problema_nombre . '/normal/ ';
+                        //echo 'cont= ' . count($archivos) . '<br>';
+                        for($i = 0; $i < count($archivos); $i++){
+                            echo 'nombre= ' . $archivos[$i] . '<br>';
+    						exec('cp problemas/' . $problema_nombre . '/normal/'
+                                  . $archivos[$i] .
+                                 ' uploads/api/' . $problema_nombre . '.cpp');
 
-                            for($i = 0; $i < count($salida); $i ++)
-                        	{
-                        		print $salida[$i];
-                                echo '<br>';
-                        	}
-                            //exec('mv salida.txt uploads/api')
+    						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
+
+                            if($return == 134){
+                                echo "<font color='red'> Assert cuando no se esperaba!! </font>
+                                     <br>";
+                            }else if($return == 1){
+                                echo "<font color='red'> Compilation Error!! </font>
+                                     <br>
+                                     Recuerda que el nombre del archivo .h debe ser lista.h
+                                     <br>
+                                     Prueba compilar tu TAD antes de enviarlo
+                                     <br>";
+                                //TODO sumar el error ??
+                            }else{
+                                exec('mv clientApi uploads/api');
+
+        						exec('./uploads/api/clientApi', $salida, $return);
+                                //echo $salida;
+                                echo "retorno " . $return . " <br>";
+                                if($return == 123){
+                                    echo "<font color='red'> Assert cuando no se debia llamar </font>
+                                         <br>";
+                                }else if($return != 0){
+                                    echo "<font color='red'> Runtime Error!! </font>
+                                         <br>";
+
+                                }else{
+
+                                    for($i = 0; $i < count($salida); $i ++)
+                                	{
+                                		print $salida[$i];
+                                        echo '<br>';
+                                	}
+                                }
+                            }
+
+                            exec('rm uploads/api/' . $problema_nombre . '.cpp');
+
                         }
-
-                        //delete everything inside api folder and zip file
-                        exec('rm uploads/api.zip');
+                        //delete everything inside api folder
                         exec('rm uploads/api/*');
 					}
+                    //delete zip uploaded
+                    exec('rm uploads/api.zip');
 
 					/**
 					Converts to unix format

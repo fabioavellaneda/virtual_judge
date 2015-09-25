@@ -18,8 +18,8 @@
 <body>
 	<header class="lp-header" id="header">
 		<div class="judge-header">
-				<h1>Juez Virtual <span>Discant</span></h1>
-				<p>Juez para el curso de colegios, Capítulo Javeriano ACM</p>
+				<h1>Juez Virtual <span>PC</span></h1>
+				<p>Curso de programación de computadores, Capítulo Javeriano ACM</p>
 		</div>
 
 		<main class="container">

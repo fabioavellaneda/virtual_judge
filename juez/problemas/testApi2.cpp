@@ -1,6 +1,7 @@
 #include <iostream>
 #include "testapi.h"
 #include <fstream>
+#include <cassert>
 using namespace std;
 
 
@@ -8,6 +9,7 @@ int main(){
     //ofstream out("salida.txt");
 
     cout<<"---------------testCliente-------------"<<endl;
+    assert(false);
     if(sum(0, 0) == 0){
         cout << "Suma de 0s es correcta"<<endl;
     }else{
