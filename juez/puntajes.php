@@ -21,7 +21,7 @@ while($row = mysqli_fetch_array($result)) {
   $array_puntos[$row['usuario']] = 0;
   $array_nombre[$row['usuario']] = $row['nombre'];
   $array_colegio[$row['usuario']] = $row['colegio'];
-  
+
   //Barra de colegios
  if(!in_array ($row['colegio'], $array_colegios))
 	array_push($array_colegios, $row['colegio']);
@@ -40,7 +40,7 @@ while($row = mysqli_fetch_array($result)) {
 	$puntos = 5;
   }
   $array_puntos[$row['usuario']] = $array_puntos[$row['usuario']] + $puntos;
-  $puntos_colegio[$array_colegio[$row['usuario']]] += $puntos; 
+  $puntos_colegio[$array_colegio[$row['usuario']]] += $puntos;
 }
 
 for($i = 0; $i < count($array_usuarios); $i++){
@@ -58,7 +58,7 @@ for($i = 0; $i < count($array_usuarios); $i++){
 
 ?>
 
-<?php 
+<?php
 $html = file_get_contents('header.html');
 echo $html;
 
@@ -79,11 +79,11 @@ echo $html;
 					$maxi = ($puntos_colegio[$val] / $cuantos_colegio[$val]);
 				}
 			}
-			
+
 			foreach ($array_colegios as $val)
 			{
 				if($puntos_colegio[$val] == 0)continue;
-				
+
 				$ancho = (($puntos_colegio[$val] / $cuantos_colegio[$val]) * 100) / $maxi;
 				//echo 'nombre: ' . $val . ' cuantos: ' . $cuantos_colegio[$val] . ' puntos: ' . $puntos_colegio[$val] . '<br>';
 				echo '<div class="progress progress-striped">';
@@ -91,9 +91,9 @@ echo $html;
 				echo  $val ;
 			    echo '</div>';
 				echo '</div>';
-				
+
 			}
-		
+
 		?>
 
         <div class="panel panel-custom filterable">
@@ -136,5 +136,13 @@ echo $html;
   </main>
 </header>
 
-<div align=center>Juez creado por: Daniel Serrano, Lenguaje creado por Alfredo Santamaria y Daniel Serrano</div></body>
+<br><br><br><br><br><br>
+<div id="footer" class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    Juez creado por: Daniel Serrano
+    <br>
+    Adaptado por: Alfredo Santamaria
+  </div>
+</div>
+
 </html>

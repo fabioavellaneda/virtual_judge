@@ -97,5 +97,12 @@ echo $html;
     <div class="cleaner">&nbsp;</div>
   </div>
 </div>
-<div align=center>Juez creado por: Daniel Serrano, Lenguaje creado por Alfredo Santamaria y Daniel Serrano</div></body>
+<br><br><br>
+<div id="footer" class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    Juez creado por: Daniel Serrano
+    <br>
+    Adaptado por: Alfredo Santamaria
+  </div>
+</div>
 </html>

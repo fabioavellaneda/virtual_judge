@@ -5,13 +5,18 @@ using namespace std;
 
 
 int main(){
-    ofstream out("salida.txt");
+    //ofstream out("salida.txt");
+
+    cout<<"---------------testCliente-------------"<<endl;
     if(sum(0, 0) == 0){
-        out << "Suma correcta";
+        cout << "Suma de 0s es correcta"<<endl;
     }else{
-        out << "No sabe sumar 0s";
+        cout << "No sabe sumar 0s"<<endl;
     }
 
-    out.close();
+    cout<<"-------------------------------------"<<endl;
+    cout<<"1/1 pruebas aprobadas"<<endl;
+
+    //out.close();
 
 }

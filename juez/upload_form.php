@@ -169,10 +169,26 @@
 	        </div> <!-- / panel-group -->
 	    </div> <!-- /col-md-8 -->
 
+
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 			<script src="../js/bootstrap.min.js"></script>
 		</div>
-	</main>
-</header>
-<div align=center>Juez creado por: Daniel Serrano, Lenguaje creado por Alfredo Santamaria y Daniel Serrano</div></body>
+		</main>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+	</header>
+	<div id="footer" class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container">
+		Juez creado por: Daniel Serrano
+		<br>
+		Adaptado por: Alfredo Santamaria
+	  </div>
+	</div>
+</body>
+
+
 </html>
