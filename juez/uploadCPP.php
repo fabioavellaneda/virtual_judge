@@ -82,6 +82,7 @@ echo $html;
                         //echo 'cont= ' . count($archivos) . '<br>';
                         $totalNormal = count($archivos);
                         $contBienNormal = 0;
+
                         for($i = 0; $i < $totalNormal; $i++){
                             //echo 'nombre= ' . $archivos[$i] . '<br>';
     						exec('cp problemas/' . $problema_nombre . '/normal/'
@@ -89,7 +90,7 @@ echo $html;
                                  ' uploads/api/' . $problema_nombre . '.cpp');
 
     						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
-                            //echo "retrono de compilar " . $return . "<br>";
+                            echo "retrono de compilar " . $return . "<br>";
                             if($return == 1){
 
                                 echo "<font color='red'> Compilation Error!! </font>
@@ -103,7 +104,7 @@ echo $html;
                                 //TODO sumar el error ??
                             }else{
                                 exec('mv clientApi uploads/api');
-
+                                $salida = "";
         						exec('timeout -k 2 2  ./uploads/api/clientApi', $salida, $return);
 
 
@@ -126,19 +127,21 @@ echo $html;
                                 }else if($return == 0){
                                     $contBienNormal++;
 
+                                }else  if($return == -1){
+                                    //no aprobo la prueba
+                                    echo "<font color='red'> No aprobó la prueba!! </font>
+                                          <br>";
                                 }else{
                                     echo "<font color='red'> Runtime Error!! </font>
                                           <br>";
                                 }
                             }
-                            echo "<br>
-                                 <font color='green'> " . $contBienNormal . "/" . $totalNormal .
-                                 " preubas normales aprobadas </font>
-                                  <br><br>";
-
                             exec('rm uploads/api/' . $problema_nombre . '.cpp');
-
                         }
+                        echo "<br>
+                             <font color='green'> " . $contBienNormal . "/" . $totalNormal .
+                             " preubas normales aprobadas </font>
+                              <br><br>";
 
                         if(!$compilationError){
                             // for de test assert
@@ -152,7 +155,7 @@ echo $html;
         						exec('cp problemas/' . $problema_nombre . '/assert/'
                                       . $archivosAssert[$i] .
                                      ' uploads/api/' . $problema_nombre . '.cpp');
-
+                                $compilacion = "";
         						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
 
                                 if($return == 1){
@@ -165,7 +168,7 @@ echo $html;
                                     //TODO matar todo
                                 }else{
                                     exec('mv clientApi uploads/api');
-
+                                    $salida2 = "";
             						exec('timeout -k 2 2 ./uploads/api/clientApi', $salida2, $return2);
                                     for($j = 0; $j < count($salida2); $j++)
                                     {
@@ -188,14 +191,15 @@ echo $html;
                                               <br>";
                                     }
                                 }
+                                exec('rm uploads/api/' . $problema_nombre . '.cpp');
+                            }
+
+                            if($totalAssert != 0){
                                 echo "<br>
                                      <font color='green'> " . $contBienAssert . "/" . $totalAssert .
                                      " preubas assert aprobadas </font>
                                       <br><br>";
-
-                                exec('rm uploads/api/' . $problema_nombre . '.cpp');
-
-                            }
+                             }
 
                             //guardar en la base de datos
                             guardarSolucion($usuario, $problema_nombre,
