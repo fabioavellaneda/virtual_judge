@@ -90,7 +90,7 @@ echo $html;
                                  ' uploads/api/' . $problema_nombre . '.cpp');
 
     						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
-                            echo "retrono de compilar " . $return . "<br>";
+                            //echo "retrono de compilar " . $return . "<br>";
                             if($return == 1){
 
                                 echo "<font color='red'> Compilation Error!! </font>
