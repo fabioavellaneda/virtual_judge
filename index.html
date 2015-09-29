@@ -82,13 +82,11 @@
                 typedef int Tdata;
                 typedef struct TLNode{
                     Tdata info;
-                    TLNode* next;
-                    TLNode* prev;
+                    TLNode* next, prev;
                 }* LNode;
 
                 typedef struct TList{
-                    LNode first;
-                    LNode last;
+                    LNode first, last, window;
                 }* List;
             </code></pre>
                </font>
