@@ -84,13 +84,13 @@ echo $html;
                         $contBienNormal = 0;
 
                         for($i = 0; $i < $totalNormal; $i++){
-                            //echo 'nombre= ' . $archivos[$i] . '<br>';
+                           echo 'nombre= ' . $archivos[$i] . '<br>';
     						exec('cp problemas/' . $problema_nombre . '/normal/'
                                   . $archivos[$i] .
                                  ' uploads/api/' . $problema_nombre . '.cpp');
 
-    						exec('c++ -o clientApi uploads/api/*.cpp', $compilacion, $return);
-                            //echo "retrono de compilar " . $return . "<br>";
+    						exec('c++ -o clientApi uploads/api/' . $problema_nombre  . '.cpp', $compilacion, $return);
+                            echo "retrono de compilar " . $return . "<br>";
                             if($return == 1){
 
                                 echo "<font color='red'> Compilation Error!! </font>
@@ -101,7 +101,6 @@ echo $html;
                                      <br>";
                                 $compilationError = true;
                                 break;
-                                //TODO sumar el error ??
                             }else{
                                 exec('mv clientApi uploads/api');
                                 $salida = "";
