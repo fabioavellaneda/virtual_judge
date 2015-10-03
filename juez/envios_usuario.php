@@ -19,7 +19,7 @@ echo $html;
 
 
 					echo 'Problemas enviados por: ' . $usuario . '<br><br>';
-					echo 'Si el problema fue enviado a tiempo ganara 10 puntos, de lo contrario ganara 5<br><br>';
+					echo 'Si el problema fue enviado a tiempo ganará 10 puntos, de lo contrario ganará 5<br><br>';
 
 					$result = mysqli_query($con, "SELECT usuario_problema.usuario AS usuario, usuario_problema.problema AS prob, usuario_problema.fecha AS fecha, problema.nombre AS nombre, problema.fecha_maxima AS maxi, problema.id AS id
 													FROM usuario_problema, problema WHERE usuario = '$usuario' AND usuario_problema.problema = id");

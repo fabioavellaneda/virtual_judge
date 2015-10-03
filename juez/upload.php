@@ -26,21 +26,21 @@ function comparar_resultados($array1, $array2){
 		return false;
 	}
 	if(count($array_bueno2) == 0){
-		$mensaje = '<table style="background-color: #FF0000;"><tr><td>Tu codigo no imprime nada, verificalo </td></tr></table>';
+		$mensaje = '<table style="background-color: #FF0000;"><tr><td>Tu código no imprime nada, verifícalo </td></tr></table>';
 		return false;
 	}
 
 
 	if(count($array_bueno2) != count($array_bueno1)) {
-		$mensaje = '<table style="background-color: #FF0000;"><tr><td> La respuesta tiene más o menos lineas de lo que debería</td></tr></table>';
+		$mensaje = '<table style="background-color: #FF0000;"><tr><td> La respuesta tiene más o menos líneas de lo que debería</td></tr></table>';
 		return false;
 	}
 	for($i = 0; $i < count($array_bueno1); $i ++)
 	{
 		if($array_bueno1[$i] != $array_bueno2[$i] ){
-			$mensaje = '<table style="background-color: #FF0000;"><tr><td> En alguna linea se está imprimiendo ';
+			$mensaje = '<table style="background-color: #FF0000;"><tr><td> En alguna línea se está imprimiendo ';
 			$mensaje .= $array_bueno2[$i] . " ";
-			$mensaje .= "y deberia ser ";
+			$mensaje .= "y debería ser ";
 			$mensaje .= $array_bueno1[$i] . " </td> </tr></table>";
 			return false;
 		}
@@ -156,7 +156,7 @@ echo $html;
 						}
 						mysqli_close($con);
 						if($entro){
-							echo "<p>Ud ya habia completado este problema, no hay puntos</p>";
+							echo "<p>Ud ya había completado este problema, no hay puntos</p>";
 						}else{
 							 //Lo actualiza en la base de datos.
 							$con = connection_update();

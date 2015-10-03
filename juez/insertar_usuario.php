@@ -14,12 +14,10 @@ $colegio = $_POST["colegio"];
 $retval = mysql_query( $sql );
 ?>
 
-
 <?php 
-$html = file_get_contents('header.html');
-echo $html;
-
+  include("header.html");
 ?>
+
           <h2>Crear Usuario</h2>
           <p>
 

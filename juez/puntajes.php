@@ -59,9 +59,7 @@ for($i = 0; $i < count($array_usuarios); $i++){
 ?>
 
 <?php 
-$html = file_get_contents('header.html');
-echo $html;
-
+  include("header.html");
 ?>
 
       <div class="col-xs-12 col-sm-8 col-md-8">

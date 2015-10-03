@@ -1,9 +1,11 @@
 <?php
-$user = "INSERT_USER";     //CHANGE THIS LINE
-$password = "INSERT_PASSWORD"; //CHANGE THIS LINE
-$db = "INSERT_DB"; //CHANGE THIS LINE
 
-$url_db = "127.0.0.1"; //Only change this if the DB is not local.
+$path = $_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'] ;
+$user = "discant";     //CHANGE THIS LINE
+$password = "discant"; //CHANGE THIS LINE
+$db = "discant"; //CHANGE THIS LINE
+
+$url_db = "localhost"; //Only change this if the DB is not local.
 
 //TODO: warning if not set.
 
